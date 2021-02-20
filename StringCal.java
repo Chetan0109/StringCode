@@ -10,6 +10,7 @@ public class StringCal{
 		ReturnSumIfDelimByNewLine();
 		ReturnSumWhenDiffDelim();
 		SplitUsingCustomDelim();
+		SkipNumGreaterThan1000();
 	}
 	
 	public static int add(String str){
@@ -66,6 +67,9 @@ public class StringCal{
 	public static void SplitUsingCustomDelim(){
 		compare(3,add("//.\n1.2"));
 	}
+	public static void SkipNumGreaterThan1000(){
+		compare(5,add("2,1001\n3"));
+	}
 	
 	public static String[] tokens(String s1, String s2) {
 		String tokens[] = s1.split((s2));
@@ -74,8 +78,14 @@ public class StringCal{
 	public static int compute(String[] numbers){
 		int j = 0;
 		for (int i = 0;i<numbers.length;i++){
+			if(Integer.parseInt(numbers[i]) > 1000)
+			{
+				continue;
+			}
+			else{
 				j = j + Integer.parseInt(numbers[i]);
 			}
+		}
 			return j;
 	}
 	public static void compare(int sum, int val){
