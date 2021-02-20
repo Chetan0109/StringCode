@@ -6,6 +6,7 @@ public class StringCal{
 		ReturnZeroIfNull();
 		ReturnNumbersIfNotNull();
 		ReturnSumIfDelimByComma();
+		ReturnSumIfDelimByNewLine();
 	}
 	
 	public static int add(String str){
@@ -13,7 +14,7 @@ public class StringCal{
 			return 0;
 		}
 		else if(str.contains(",")){
-			String[] numbers = str.split(",");
+			String[] numbers = str.split(",|\n");
 			int j = 0;
 			for(int i = 0;i<numbers.length;i++){
 				j = j + Integer.parseInt(numbers[i]);
@@ -43,6 +44,13 @@ public class StringCal{
 		int val;
 		String s = "1,2,3";
 		val = add(s);
+		compare(sum,val);
+	}
+	
+	public static void ReturnSumIfDelimByNewLine(){
+		int sum = 6;
+		int val;
+		val = add("1\n2,3");
 		compare(sum,val);
 	}
 	public static void compare(int sum, int val){
