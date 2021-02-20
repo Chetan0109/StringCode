@@ -9,6 +9,7 @@ public class StringCal{
 		ReturnSumIfDelimByComma();
 		ReturnSumIfDelimByNewLine();
 		ReturnSumWhenDiffDelim();
+		SplitUsingCustomDelim();
 	}
 	
 	public static int add(String str){
@@ -28,7 +29,7 @@ public class StringCal{
 			String delim = m.group(1);
 			String num = m.group(2);
 			
-			String numbers[] = tokens(num,delim);
+			String numbers[] = tokens(num,Pattern.quote(delim));
 			return compute(numbers);
 			}
 			else 
@@ -62,9 +63,12 @@ public class StringCal{
 	public static void ReturnSumWhenDiffDelim(){
 		compare(3,add("//;\n1;2"));
 	}
+	public static void SplitUsingCustomDelim(){
+		compare(3,add("//.\n1.2"));
+	}
 	
 	public static String[] tokens(String s1, String s2) {
-		String tokens[] = s1.split(s2);
+		String tokens[] = s1.split((s2));
 		return tokens;
 	}
 	public static int compute(String[] numbers){
