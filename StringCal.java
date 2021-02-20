@@ -1,5 +1,6 @@
 import java.io.*;
 import java.lang.*;
+import java.util.regex.*;
 
 public class StringCal{
 	public static void main(String args[]){
@@ -7,6 +8,7 @@ public class StringCal{
 		ReturnNumbersIfNotNull();
 		ReturnSumIfDelimByComma();
 		ReturnSumIfDelimByNewLine();
+		ReturnSumWhenDiffDelim();
 	}
 	
 	public static int add(String str){
@@ -14,12 +16,23 @@ public class StringCal{
 			return 0;
 		}
 		else if(str.contains(",")){
-			String[] numbers = str.split(",|\n");
-			int j = 0;
-			for(int i = 0;i<numbers.length;i++){
-				j = j + Integer.parseInt(numbers[i]);
+			String[] numbers = tokens(str,",|\n");
+			
+			return compute(numbers);
+		}
+		else if(str.startsWith("//")){
+			Pattern p = Pattern.compile("//(.)\n(.*)");
+			Matcher m = p.matcher(str);
+			boolean b = m.matches();
+			if(m.matches()){
+			String delim = m.group(1);
+			String num = m.group(2);
+			
+			String numbers[] = tokens(num,delim);
+			return compute(numbers);
 			}
-			return j;
+			else 
+			return 0;
 		}
 		else{
 			return Integer.parseInt(str);
@@ -27,35 +40,43 @@ public class StringCal{
 	}
 	
 	public static void ReturnZeroIfNull(){
-		int sum = 0;
-		int val;
-		val = StringCal.add("");
-		compare(sum,val);
+		
+		compare(0,add(""));
 		
 	}
 	
 	public static void ReturnNumbersIfNotNull(){
-		int sum = 12;
-		int val = StringCal.add("12");
-		compare(sum,val);
+		
+		compare(12,add("12"));
 	}
 	public static void ReturnSumIfDelimByComma(){
-		int sum = 6;
-		int val;
-		String s = "1,2,3";
-		val = add(s);
-		compare(sum,val);
+
+		compare(6,add("1,2,3"));
 	}
 	
 	public static void ReturnSumIfDelimByNewLine(){
-		int sum = 6;
-		int val;
-		val = add("1\n2,3");
-		compare(sum,val);
+
+		compare(6,add("1\n2,3"));
+	}
+	
+	public static void ReturnSumWhenDiffDelim(){
+		compare(3,add("//;\n1;2"));
+	}
+	
+	public static String[] tokens(String s1, String s2) {
+		String tokens[] = s1.split(s2);
+		return tokens;
+	}
+	public static int compute(String[] numbers){
+		int j = 0;
+		for (int i = 0;i<numbers.length;i++){
+				j = j + Integer.parseInt(numbers[i]);
+			}
+			return j;
 	}
 	public static void compare(int sum, int val){
 		if(sum == val){
-			System.out.println("OK");
+			System.out.println("OK - " + sum);
 		}
 		else{
 			System.out.println("NOT OK");
